@@ -7,10 +7,14 @@ export class App extends React.Component {
     status: 'idle',
   };
 
+  onSubmitForm = searchItem => {
+    this.setState({ searchItem });
+  };
+
   render() {
     const { status } = this.state;
     if (status === 'idle') {
-      return <SearchBar />;
+      return <SearchBar onSubmitForm={this.onSubmitForm} />;
     }
   }
 }

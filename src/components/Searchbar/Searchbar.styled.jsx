@@ -13,7 +13,7 @@ export const Searchform = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 64px;
+  min-height: 50px;
   padding-right: 24px;
   padding-left: 24px;
   padding-top: 12px;
@@ -48,13 +48,14 @@ export const SearchButton = styled.button`
 `;
 
 export const SearchInput = styled.input`
-  display: inline-block;
+  display: block;
   width: 100%;
+  height: 25px;
   font: inherit;
-  font-size: 20px;
+  font-size: 10px;
   border: none;
   outline: none;
-  padding-left: 4px;
+  padding-left: 30px;
   padding-right: 4px;
 
   :placeholder {
