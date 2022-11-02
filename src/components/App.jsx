@@ -21,7 +21,6 @@ export class App extends React.Component {
       this.setState({ status: 'pending' });
       this.fetchPhotos(this.state.querry, this.state.page);
     }
-    console.log('yes');
   }
 
   async fetchPhotos(querry, page) {
@@ -30,7 +29,6 @@ export class App extends React.Component {
         `https:pixabay.com/api/?key=30379658-c35fb17314acd2b2cacdcf3a4&q=${querry}&page=${page}`
       )
       .then(data => {
-        console.log(data.data.hits.length);
         if (data.data.hits.length < 1) {
           console.log('ERROR');
           return Promise.reject(new Error('We can not find anything'));
@@ -47,7 +45,7 @@ export class App extends React.Component {
   onSubmitForm = querry => {
     this.setState(querry);
     if (this.state.photos.length > 20) {
-      this.setState({ photos: [] });
+      this.setState(prevState => ({ photos: [] }));
     }
   };
 

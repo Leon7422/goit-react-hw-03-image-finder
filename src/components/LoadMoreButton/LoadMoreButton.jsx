@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoadMore } from './LoadMoreButton.styled';
+import PropTypes from 'prop-types';
 
 export class LoadMoreButton extends React.Component {
   render() {
@@ -10,3 +11,7 @@ export class LoadMoreButton extends React.Component {
     );
   }
 }
+
+LoadMoreButton.propTypes = {
+  loadMore: PropTypes.func,
+};
