@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const Div = styled.div`
-  width: 300px;
+  width: 400px;
   position: relative;
+  vertical-align: baseline;
 `;
 
 export const Searchform = styled.form`
@@ -29,8 +30,8 @@ export const SearchButton = styled.button`
   top: 0;
   left: 0;
   display: inline-block;
-  width: 30px;
-  height: 25px;
+  width: 42px;
+  height: 42px;
   border: 0;
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg');
   background-size: 70%;
@@ -48,14 +49,15 @@ export const SearchButton = styled.button`
 `;
 
 export const SearchInput = styled.input`
-  display: block;
+  box-sizing: border-box;
+  display: inline-block;
   width: 100%;
-  height: 25px;
+  height: 40px;
   font: inherit;
-  font-size: 10px;
+  font-size: 20px;
   border: none;
   outline: none;
-  padding-left: 30px;
+  padding-left: 42px;
   padding-right: 4px;
 
   :placeholder {
@@ -65,7 +67,7 @@ export const SearchInput = styled.input`
 `;
 
 export const ButtonLabel = styled.label`
-  position: absolute;
+  position: relative;
   width: 1px;
   height: 1px;
   padding: 0;
