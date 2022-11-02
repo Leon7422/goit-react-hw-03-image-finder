@@ -24,6 +24,7 @@ export class App extends React.Component {
   }
 
   async fetchPhotos(querry, page) {
+    const BASE_URL = 'https://pixabay.com/api/';
     const options = {
       params: {
         key: '30379658-c35fb17314acd2b2cacdcf3a4',
@@ -33,9 +34,8 @@ export class App extends React.Component {
       },
     };
 
-    const url = 'https:pixabay.com/api/';
     await axios
-      .get(url, options)
+      .get(`${BASE_URL}`, options)
       .then(data => {
         if (data.data.hits.length < 1) {
           console.log('ERROR');
