@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { SearchBar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { LoaderSpinner } from './Loader/Loader';
 import { LoadMoreButton } from './LoadMoreButton/LoadMoreButton';
+import { fetchPhotos } from './Services/PixabyApi';
 
 export class App extends React.Component {
   state = {
@@ -19,42 +19,26 @@ export class App extends React.Component {
       prevState.page !== this.state.page
     ) {
       this.setState({ status: 'pending' });
-      this.fetchPhotos(this.state.querry, this.state.page);
+      fetchPhotos(this.state.querry, this.state.page)
+        .then(data => {
+          if (data.data.hits.length < 1) {
+            console.log('ERROR');
+            return Promise.reject(new Error('We can not find anything'));
+          }
+
+          return this.setState(prevState => ({
+            status: 'resolved',
+            photos: [...prevState.photos, ...data.data.hits],
+          }));
+        })
+        .catch(e => this.setState({ status: 'rejected' }));
     }
-  }
-
-  async fetchPhotos(querry, page) {
-    const BASE_URL = 'https://pixabay.com/api/';
-    const options = {
-      params: {
-        key: '30379658-c35fb17314acd2b2cacdcf3a4',
-        q: querry,
-        page: page,
-        safesearch: true,
-      },
-    };
-
-    await axios
-      .get(`${BASE_URL}`, options)
-      .then(data => {
-        if (data.data.hits.length < 1) {
-          console.log('ERROR');
-          return Promise.reject(new Error('We can not find anything'));
-        }
-
-        return this.setState(prevState => ({
-          status: 'resolved',
-          photos: [...prevState.photos, ...data.data.hits],
-        }));
-      })
-      .catch(e => this.setState({ status: 'rejected' }));
   }
 
   onSubmitForm = querry => {
+    this.setState({ photos: [] });
+
     this.setState(querry);
-    if (this.state.photos.length > 20) {
-      this.setState(prevState => ({ photos: [] }));
-    }
   };
 
   loadMore = () => {
@@ -65,37 +49,36 @@ export class App extends React.Component {
 
   render() {
     const { status } = this.state;
-    if (status === 'idle') {
-      return <SearchBar onSubmitForm={this.onSubmitForm} />;
-    }
 
-    if (status === 'pending') {
-      return (
-        <>
-          <SearchBar onSubmitForm={this.onSubmitForm} />
-          <ImageGallery data={this.state.photos} />
-          <LoaderSpinner />
-        </>
-      );
-    }
+    return (
+      <>
+        {/* alltime */}
+        <SearchBar
+          onSubmitForm={this.onSubmitForm}
+          querry={this.state.querry}
+        />
 
-    if (status === 'resolved') {
-      return (
-        <>
-          <SearchBar onSubmitForm={this.onSubmitForm} />
-          <ImageGallery data={this.state.photos} />
-          <LoadMoreButton loadMore={this.loadMore} />
-        </>
-      );
-    }
+        {/* pending */}
+        {status === 'pending' && (
+          <>
+            <ImageGallery data={this.state.photos} />
+            <LoaderSpinner />
+          </>
+        )}
 
-    if (status === 'rejected') {
-      return (
-        <>
-          <SearchBar onSubmitForm={this.onSubmitForm} />
+        {/* resolved */}
+        {status === 'resolved' && (
+          <>
+            <ImageGallery data={this.state.photos} />
+            <LoadMoreButton loadMore={this.loadMore} />
+          </>
+        )}
+
+        {/* rejected */}
+        {status === 'rejected' && (
           <div>Sorry, we can not find anything! Please retry your search</div>
-        </>
-      );
-    }
+        )}
+      </>
+    );
   }
 }

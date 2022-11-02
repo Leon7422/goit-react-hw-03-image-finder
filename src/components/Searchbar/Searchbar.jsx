@@ -28,7 +28,10 @@ export class SearchBar extends React.Component {
             value={this.state.querry}
             placeholder="Search images and photos"
           ></SearchInput>
-          <SearchButton type="submit"></SearchButton>
+          <SearchButton
+            type="submit"
+            disabled={this.props.querry === this.state.querry}
+          ></SearchButton>
         </Div>
       </Searchform>
     );
