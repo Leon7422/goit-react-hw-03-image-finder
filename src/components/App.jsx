@@ -32,8 +32,8 @@ export class App extends React.Component {
         safesearch: true,
       },
     };
-    const key = 'key=30379658-c35fb17314acd2b2cacdcf3a4';
-    const url = `https:pixabay.com/api/?${key}&q=${querry}&page=${page}`;
+
+    const url = `https:pixabay.com/api/`;
     await axios
       .get(url, options)
       .then(data => {
