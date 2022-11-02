@@ -33,7 +33,7 @@ export class App extends React.Component {
       },
     };
 
-    const url = `https:pixabay.com/api/`;
+    const url = 'https:pixabay.com/api/';
     await axios
       .get(url, options)
       .then(data => {
